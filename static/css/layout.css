@@ -1,0 +1,111 @@
+@import url('variables.css');
+
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--bg-secondary);
+    border-right: 1px solid var(--border-glass);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    z-index: 100;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+}
+
+.logo-text {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius-sm);
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item.active {
+    border-left: 3px solid var(--accent-blue);
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, transparent 100%);
+}
+
+.nav-item i {
+    font-size: 1.1rem;
+}
+
+/* Main Content Styling */
+.main-content {
+    flex-grow: 1;
+    padding: 2rem 3rem;
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Two-Panel Layout for Underwriting Tab */
+.two-panel-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 1200px) {
+    .two-panel-grid {
+        grid-template-columns: 1fr;
+    }
+}

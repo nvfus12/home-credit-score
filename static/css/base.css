@@ -1,0 +1,55 @@
+@import url('variables.css');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    overflow-x: hidden;
+    line-height: 1.5;
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
+    background-attachment: fixed;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+input, select, button {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+/* Custom scrollbar for modern browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: var(--border-radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+}

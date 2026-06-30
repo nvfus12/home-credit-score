@@ -1,0 +1,43 @@
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+# IDE settings
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Raw Kaggle Data (Huge CSV files)
+home-credit-default-risk/
+*.csv
+*.zip
+*.tgz
+*.gz
+
+# Local runtime logs & databases
+data/logs/inference_log.db
+data/logs/*.db
+*.log
+
+# Generated static assets (SHAP plots and Drift reports)
+static/assets/shap_plots/pred_*.png
+static/assets/drift_reports/*.html
+
+# Temp files
+tmp/
+temp/
+scratch/

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreditLens AI — Explainable Credit Scoring & Risk Assessment Platform</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS Design System & Components -->
+    <link rel="stylesheet" href="/static/css/variables.css?v=1.0.2">
+    <link rel="stylesheet" href="/static/css/base.css?v=1.0.2">
+    <link rel="stylesheet" href="/static/css/layout.css?v=1.0.2">
+    <link rel="stylesheet" href="/static/css/components.css?v=1.0.2">
+    <link rel="stylesheet" href="/static/css/animations.css?v=1.0.2">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <i class="fa-solid fa-shield-halved fa-2x" style="color: var(--accent-blue);"></i>
+                <span class="logo-text">CreditLens AI</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="underwriting">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span>Thẩm Định Hồ Sơ</span>
+                </button>
+                <button class="nav-item" data-tab="history">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>Lịch Sử Đánh Giá</span>
+                </button>
+                <button class="nav-item" data-tab="monitoring">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <span>Giám Sát MLOps</span>
+                </button>
+            </nav>
+        </aside>
+        
+        <!-- Main Application Area -->
+        <main class="main-content">
+            
+            <!-- ================= TAB: UNDERWRITING ================= -->
+            <section id="tab-underwriting" class="tab-content active fade-in">
+                <div class="page-header">
+                    <h1 class="page-title">Thẩm Định Hồ Sơ Khách Hàng</h1>
+                    <p class="page-subtitle">Nhập thông tin hồ sơ vay để đánh giá rủi ro tín dụng và giải thích tự động bằng SHAP.</p>
+                </div>
+                
+                <div class="two-panel-grid">
+                    
+                    <!-- Left Panel: Application Input Form -->
+                    <div class="glass-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                            <h2 style="font-size: 1.15rem; font-weight: 600; margin: 0; color: var(--text-primary); display: flex; align-items: center;"><i class="fa-solid fa-file-invoice-dollar" style="margin-right: 0.5rem; color: var(--accent-blue);"></i>Thông Tin Hồ Sơ Đăng Ký</h2>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <select id="template-select" class="form-select" style="width: 200px; padding: 0.3rem 1.8rem 0.3rem 0.8rem; font-size: 0.8rem; height: 32px; border-radius: 6px; margin: 0; box-sizing: border-box; line-height: 1.2; display: inline-block; vertical-align: middle;">
+                                    <option value="" disabled selected>Chọn hồ sơ mẫu...</option>
+                                    <option value="profile1">1. Excellent - Phê duyệt (Bác sĩ)</option>
+                                    <option value="profile2">2. Good - Duyệt có ĐK (Kỹ sư IT)</option>
+                                    <option value="profile3">3. Fair - Duyệt thủ công (Hộ lẻ)</option>
+                                    <option value="profile4">4. Poor - Từ chối duyệt (Nợ CIC)</option>
+                                    <option value="profile5">5. Excellent - Chuyên gia Y tế</option>
+                                    <option value="profile6">6. Good - Lập trình viên trẻ</option>
+                                    <option value="profile7">7. Fair - Chủ shop tạp hóa</option>
+                                    <option value="profile8">8. Poor - Lao động nợ xấu CIC</option>
+                                    <option value="profile9">9. Excellent - Giám đốc điều hành</option>
+                                    <option value="profile10">10. Poor - Thất nghiệp nợ xấu</option>
+                                </select>
+                                <button type="button" id="btn-clear-form" class="btn-primary" style="padding: 0 0.75rem; font-size: 0.8rem; height: 32px; background: rgba(30, 41, 59, 0.5); color: var(--text-primary); border: 1px solid var(--border-glass); border-radius: 6px; cursor: pointer; margin: 0; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; vertical-align: middle; transition: all 0.3s ease;">
+                                    <i class="fa-solid fa-eraser"></i> Xóa
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <form id="loan-form">
+                            <div class="form-grid">
+                                
+                                <!-- Group 1: General Info -->
+                                <div class="form-group">
+                                    <label class="form-label" for="applicant_age">Tuổi Khách Hàng (Năm)</label>
+                                    <input class="form-input" type="number" id="applicant_age" placeholder="Ví dụ: 35" min="18" max="100" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="num_children">Số Con Cái</label>
+                                    <input class="form-input" type="number" id="num_children" placeholder="Ví dụ: 1" min="0" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" for="education_type">Trình Độ Học Vấn</label>
+                                    <select class="form-select" id="education_type">
+                                        <option value="" disabled selected>Chọn học vấn...</option>
+                                        <option value="Higher education">Đại học / Sau đại học</option>
+                                        <option value="Secondary / special education">Trung học / Cao đẳng</option>
+                                        <option value="Incomplete higher">Đại học dang dở</option>
+                                        <option value="Lower secondary">Trung học cơ sở</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="housing_type">Hình Thức Cư Trú</label>
+                                    <select class="form-select" id="housing_type">
+                                        <option value="" disabled selected>Chọn cư trú...</option>
+                                        <option value="House / apartment">Nhà riêng / Căn hộ</option>
+                                        <option value="With parents">Ở cùng bố mẹ</option>
+                                        <option value="Rented apartment">Nhà thuê</option>
+                                        <option value="Municipal apartment">Nhà công vụ</option>
+                                    </select>
+                                </div>
+ 
+                                <!-- Group 2: Financial Details -->
+                                <div class="form-group">
+                                    <label class="form-label" for="income_total">Thu Nhập Hàng Tháng (VND)</label>
+                                    <input class="form-input" type="number" id="income_total" placeholder="Ví dụ: 25000000" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="employment_years">Số Năm Làm Việc</label>
+                                    <input class="form-input" type="number" id="employment_years" placeholder="Ví dụ: 5" min="0" step="0.5" required>
+                                </div>
+ 
+                                <div class="form-group">
+                                    <label class="form-label" for="loan_amount">Số Tiền Muốn Vay (VND)</label>
+                                    <input class="form-input" type="number" id="loan_amount" placeholder="Ví dụ: 150000000" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="loan_annuity">Số Tiền Trả Định Kỳ / Tháng (VND)</label>
+                                    <input class="form-input" type="number" id="loan_annuity" placeholder="Ví dụ: 8500000" min="0" required>
+                                </div>
+ 
+                                <div class="form-group">
+                                    <label class="form-label" for="goods_price">Giá Trị Tài Sản/Hàng Hóa Mua (VND)</label>
+                                    <input class="form-input" type="number" id="goods_price" placeholder="Ví dụ: 130000000" min="0" required>
+                                </div>
+ 
+                                <!-- Group 3: History & external sources -->
+                                <div class="form-group">
+                                    <label class="form-label" for="bureau_loans_active">Số Khoản Vay CIC Đang Chạy</label>
+                                    <input class="form-input" type="number" id="bureau_loans_active" placeholder="Ví dụ: 1" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="bureau_overdue_count">Số Khoản CIC Nợ Quá Hạn</label>
+                                    <input class="form-input" type="number" id="bureau_overdue_count" placeholder="Ví dụ: 0" min="0" required>
+                                </div>
+ 
+                                <div class="form-group">
+                                    <label class="form-label" for="prev_application_count">Số Hồ Sơ Cũ Tại Home Credit</label>
+                                    <input class="form-input" type="number" id="prev_application_count" placeholder="Ví dụ: 2" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="prev_approved_ratio">Tỷ Lệ Duyệt Hồ Sơ Cũ</label>
+                                    <input class="form-input" type="number" id="prev_approved_ratio" placeholder="Ví dụ: 0.5" min="0" max="1" step="0.01" required>
+                                </div>
+ 
+                                <div class="form-group">
+                                    <label class="form-label" for="external_source_2">Điểm Tín Dụng Đối Tác 2 (0 - 1)</label>
+                                    <input class="form-input" type="number" id="external_source_2" placeholder="Ví dụ: 0.55" min="0" max="1" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="external_source_3">Điểm Tín Dụng Đối Tác 3 (0 - 1)</label>
+                                    <input class="form-input" type="number" id="external_source_3" placeholder="Ví dụ: 0.48" min="0" max="1" step="0.01" required>
+                                </div>
+                                
+                            </div>
+                            
+                            <button type="submit" class="btn-primary" id="btn-assess">
+                                <i class="fa-solid fa-chart-line"></i>
+                                <span>Bắt Đầu Đánh Giá Rủi Ro</span>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Right Panel: Scoring & SHAP output -->
+                    <div class="glass-card" id="results-panel">
+                        <h2 class="card-title"><i class="fa-solid fa-square-poll-vertical" style="margin-right: 0.5rem; color: var(--accent-purple);"></i>Kết Quả Thẩm Định</h2>
+                        
+                        <!-- Empty State -->
+                        <div id="results-empty" style="text-align: center; padding: 5rem 0; color: var(--text-secondary);">
+                            <i class="fa-solid fa-calculator fa-4x" style="margin-bottom: 1.5rem; color: var(--text-muted);"></i>
+                            <p>Nhập thông tin hồ sơ vay bên trái và bấm nút bắt đầu để xem chấm điểm tín dụng.</p>
+                        </div>
+                        
+                        <!-- Loading State (Skeletons) -->
+                        <div id="results-loading" style="display: none;">
+                            <div class="score-visualization">
+                                <div class="skeleton" style="width: 150px; height: 150px; border-radius: 50%;"></div>
+                            </div>
+                            <div class="skeleton skeleton-title" style="margin: 0 auto 1.5rem auto;"></div>
+                            <div class="skeleton skeleton-text" style="width: 90%;"></div>
+                            <div class="skeleton skeleton-text" style="width: 80%;"></div>
+                            <div class="skeleton skeleton-image" style="margin-top: 1.5rem;"></div>
+                        </div>
+                        
+                        <!-- Real Content State -->
+                        <div id="results-content" style="display: none;" class="fade-in">
+                            
+                            <!-- Score Ring -->
+                            <div class="score-visualization">
+                                <div class="svg-ring-container">
+                                    <svg width="200" height="200" viewBox="0 0 200 200">
+                                        <circle class="svg-ring-back" cx="100" cy="100" r="85"></circle>
+                                        <circle class="svg-ring-front" id="score-ring" cx="100" cy="100" r="85" stroke-dasharray="534" stroke-dashoffset="534"></circle>
+                                    </svg>
+                                    <div class="score-text-overlay">
+                                        <div class="score-num" id="display-score">---</div>
+                                        <div class="score-label">Credit Score</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Risk grade & color badge -->
+                            <div style="text-align: center; margin-bottom: 1.5rem;">
+                                <span class="badge" id="display-badge">---</span>
+                                <h3 style="margin-top: 0.75rem; font-size: 1.1rem; color: var(--text-primary);" id="display-action">---</h3>
+                                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-secondary);" id="display-action-desc">---</p>
+                            </div>
+                            
+                            <!-- Top Risk Factors -->
+                            <div style="margin-top: 2rem;">
+                                <h4 style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;"><i class="fa-solid fa-list-ol" style="margin-right: 0.5rem; color: var(--accent-yellow);"></i>Các Yếu Tố Ảnh Hưởng Hàng Đầu:</h4>
+                                <ul id="display-factors" style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.85rem;">
+                                    <!-- Dynamic items -->
+                                </ul>
+                            </div>
+                            
+                            <!-- SHAP Plot Image -->
+                            <div style="margin-top: 2rem;">
+                                <h4 style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-wand-magic-sparkles" style="margin-right: 0.5rem; color: var(--accent-purple);"></i>Biểu Đồ Giải Thích SHAP:</h4>
+                                <div class="shap-image-wrapper">
+                                    <img class="shap-image" id="display-shap-img" src="" alt="SHAP Plot Analysis">
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ================= TAB: HISTORY ================= -->
+            <section id="tab-history" class="tab-content fade-in">
+                <div class="page-header">
+                    <h1 class="page-title">Lịch Sử Đánh Giá Tín Dụng</h1>
+                    <p class="page-subtitle">Xem lại danh sách các hồ sơ tín dụng đã được thẩm định tự động trước đây.</p>
+                </div>
+                
+                <div class="glass-card">
+                    <!-- Filter Toolbar -->
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; justify-content: flex-end;">
+                        <select class="form-select" id="history-filter-risk" style="width: 200px;">
+                            <option value="">Tất cả mức rủi ro</option>
+                            <option value="Excellent">Excellent (Xuất sắc)</option>
+                            <option value="Good">Good (Khá)</option>
+                            <option value="Fair">Fair (Trung bình)</option>
+                            <option value="Poor">Poor (Rủi ro cao)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="custom-table-container">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Thời Gian</th>
+                                    <th>Mã Hồ Sơ</th>
+                                    <th>Khách Hàng</th>
+                                    <th>Thu Nhập</th>
+                                    <th>Số Tiền Vay</th>
+                                    <th>Xác Suất Nợ Xấu</th>
+                                    <th>Điểm Tín Dụng</th>
+                                    <th>Hành Động Đề Xuất</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body">
+                                <tr>
+                                    <td colspan="8" style="text-align: center; color: var(--text-secondary); padding: 3rem 0;">Đang tải lịch sử...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem;">
+                        <span id="history-page-info" style="font-size: 0.85rem; color: var(--text-secondary);">Trang 1 / 1 (Tổng số 0 bản ghi)</span>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-primary" id="btn-history-prev" style="margin-top: 0; padding: 0.5rem 1rem; width: auto; font-size: 0.8rem;" disabled>Trước</button>
+                            <button class="btn-primary" id="btn-history-next" style="margin-top: 0; padding: 0.5rem 1rem; width: auto; font-size: 0.8rem;" disabled>Sau</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ================= TAB: MONITORING ================= -->
+            <section id="tab-monitoring" class="tab-content fade-in">
+                <div class="page-header">
+                    <h1 class="page-title">MLOps Monitoring Dashboard</h1>
+                    <p class="page-subtitle">Giám sát các chỉ số Data Drift, Target Drift và sức khỏe của mô hình XGBoost trong sản xuất.</p>
+                </div>
+                
+                <!-- System Health Alert -->
+                <div class="alert-banner alert-banner-ok" id="system-health-banner">
+                    <i class="fa-solid fa-circle-check fa-lg"></i>
+                    <div>
+                        <strong id="system-health-title">Hệ thống đang ổn định (Health: OK)</strong>
+                        <p style="font-size: 0.8rem; margin-top: 0.25rem;" id="system-health-desc">Chưa phát hiện sự lệch dữ liệu (Data Drift). Hiệu năng mô hình nằm trong ngưỡng kiểm soát.</p>
+                    </div>
+                </div>
+                
+                <!-- Stats Cards Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-label">Tổng lượt đánh giá (Inferences)</span>
+                        <span class="stat-value" id="stats-total-inferences">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Đăng ký mới hôm nay</span>
+                        <span class="stat-value" id="stats-today-inferences">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Xác suất nợ xấu TB</span>
+                        <span class="stat-value" id="stats-avg-probability">0.0%</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Phiên bản mô hình</span>
+                        <span class="stat-value">v1.0.0 (XGB)</span>
+                    </div>
+                </div>
+                
+                <!-- Evidently AI Report Integration -->
+                <div class="glass-card" style="margin-top: 2rem;">
+                    <h2 class="card-title"><i class="fa-solid fa-chart-bar" style="margin-right: 0.5rem; color: var(--accent-blue);"></i>Báo Cáo Chi Tiết Độ Lệch Dữ Liệu (Evidently AI Drift Report)</h2>
+                    
+                    <!-- Alert when drift report is not loaded/insufficient data -->
+                    <div id="drift-warning-box" style="text-align: center; padding: 5rem 0; color: var(--text-secondary);">
+                        <i class="fa-solid fa-triangle-exclamation fa-4x" style="color: var(--accent-yellow); margin-bottom: 1.5rem;"></i>
+                        <p style="font-size: 1rem; font-weight: 500;" id="drift-warning-text">Đang tải dữ liệu báo cáo...</p>
+                    </div>
+                    
+                    <!-- Iframe to show Evidently HTML report -->
+                    <div id="drift-report-container" style="display: none;" class="iframe-container">
+                        <iframe id="drift-report-iframe" src="" title="Evidently AI Data Drift Report"></iframe>
+                    </div>
+                </div>
+            </section>
+            
+        </main>
+    </div>
+
+    <!-- Frontend Core Scripts -->
+    <script src="/static/js/api.js?v=1.0.2"></script>
+    <script src="/static/js/underwriting.js?v=1.0.2"></script>
+    <script src="/static/js/monitoring.js?v=1.0.2"></script>
+    <script src="/static/js/app.js?v=1.0.2"></script>
+</body>
+</html>
