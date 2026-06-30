@@ -138,33 +138,5 @@ Open **[http://127.0.0.1:8000](http://127.0.0.1:8000)** in your browser.
 *   **Tab 2 (Evaluation History):** Search and filter past underwriting decisions saved in the SQLite database.
 *   **Tab 3 (MLOps Monitoring):** View the live **Evidently AI Data Drift report** showing feature distributions and system stability.
 
----
-
-## 📤 Pushing to Your GitHub Repository
-
-To push this project to your repository at **https://github.com/nvfus12/home-credit-score.git**, run the following commands in your terminal:
-
-```bash
-# Initialize a local Git repository
-git init
-
-# Add all files (the .gitignore will automatically exclude virtual envs and raw datasets)
-git add .
-
-# Create the initial commit
-git commit -m "feat: initial commit with explainable credit scoring, async FastAPI and MLOps dashboard"
-
-# Rename branch to main
-git branch -M main
-
-# Add your GitHub remote repository
-git remote add origin https://github.com/nvfus12/home-credit-score.git
-
-# Force-push to remote (or push normally if empty)
-git push -u origin main
-```
-
----
-
 ## 📝 License
 This project is licensed under the Apache License 2.0. See the `LICENSE` file for details.
